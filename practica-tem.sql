@@ -46,8 +46,8 @@ customer_state string,
 customer_zipcode string
 ) row format delimited fields terminated by ',';
 
---5  Obtener los departamentos que empiezan con la letra G. La búsqueda-- 
---debe ser indistinta por mayúsculas o minúsculas.--
+--5  Obtener los departamentos que empiezan con la letra G. La bÃºsqueda-- 
+--debe ser indistinta por mayÃºsculas o minÃºsculas.--
 SELECT *  FROM departments WHERE LOWER(department_name) LIKE 'g%' limit 20; 
 
 -- 6 Obtener los productos que nunca fueron vendidos (Nota: Utilizar LEFT-- 
@@ -69,15 +69,15 @@ INNER JOIN products P ON P.product_id =O.order_item_product_id
 GROUP BY P.product_id 
 ORDER BY TOTAL DESC LIMIT 20;
 
---8. Obtener el nombre de departamento y de categoría que le corresponden--
---al departamento “Fitness”--
+--8. Obtener el nombre de departamento y de categorÃ­a que le corresponden--
+--al departamento â€œFitnessâ€--
 
 SELECT D.department_name, C.category_name  FROM departments D
 INNER JOIN categories C ON C.category_department_id =D.department_id
 WHERE D.department_name = "Fitness" LIMIT 20;
 
 
---9. Obtener los productos cuyo departamento empieza con la letra “A”--
+--9. Obtener los productos cuyo departamento empieza con la letra â€œAâ€--
 
 SELECT P.product_id, P.product_name,D.department_name 
 FROM products P
@@ -85,8 +85,8 @@ INNER JOIN categories C ON P.product_category_id =C.category_id
 INNER JOIN departments D ON C.category_department_id =D.department_id 
 WHERE D.department_name LIKE 'A%' LIMIT 20;
 
--- 10.Obtener el monto total comprado por la cliente “Ann Smith” en fechas-- 
---posteriores al 01 de julio de 2014. (Pista: usar la función to_date)--
+-- 10.Obtener el monto total comprado por la cliente â€œAnn Smithâ€ en fechas-- 
+--posteriores al 01 de julio de 2014. (Pista: usar la funciÃ³n to_date)--
 
 SELECT  SUM(I.order_item_subtotal) AS TOTAL, CONCAT(C.customer_fname,' ',C.customer_lname) AS Name
 FROM customers C
@@ -100,9 +100,9 @@ ORDER BY TOTAL
 
 --.Obtener:--
 --Nombre de Departamento--
---Nombre de Categoría--
+--Nombre de CategorÃ­a--
 --Nombre de producto--
---De todos los productos cuyas ventas totales sobrepasaron 1000 dólares --
+--De todos los productos cuyas ventas totales sobrepasaron 1000 dÃ³lares --
 --en julio de 2014.--
 
 SELECT D.department_name, C.category_name , P.product_name FROM departments D 
@@ -112,10 +112,10 @@ INNER JOIN order_items O ON O.order_item_product_id =P.product_id
 INNER JOIN orders ORD ON O.order_item_order_id =ORD.order_id 
 WHERE EXTRACT(YEAR FROM TO_DATE(ORD.order_date)) = 2014 AND EXTRACT(MONTH FROM TO_DATE(ORD.order_date)) = 7
 GROUP BY P.product_name, D.department_name , C.category_name 
-HAVING SUM(O.order_item_subtotal)>=1000 LIMIT 20;
+HAVING SUM(O.order_item_subtotal)>1000 LIMIT 20;
 
---12.Crear una nueva tabla “ventas totales” con el resultado del inciso 11--
---que esté separado por comas. Mostrar las primeras filas del contenido-- 
+--12.Crear una nueva tabla â€œventas totalesâ€ con el resultado del inciso 11--
+--que estÃ© separado por comas. Mostrar las primeras filas del contenido-- 
 --de dicho archivo--
 
 CREATE EXTERNAL TABLE ventas_totales
@@ -136,6 +136,6 @@ INNER JOIN order_items O ON O.order_item_product_id =P.product_id
 INNER JOIN orders ORD ON O.order_item_order_id =ORD.order_id 
 WHERE EXTRACT(YEAR FROM TO_DATE(ORD.order_date)) = 2014 AND EXTRACT(MONTH FROM TO_DATE(ORD.order_date)) = 7
 GROUP BY P.product_name, D.department_name , C.category_name 
-HAVING SUM(O.order_item_subtotal)>=1000 LIMIT 20;
+HAVING SUM(O.order_item_subtotal)>1000 LIMIT 20;
 
 SELECT * FROM ventas_totales LIMIT 20;
